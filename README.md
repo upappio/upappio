@@ -68,10 +68,13 @@
     ApiMethods.sendEvent(MainActivity.this,归因平台,detailBody);
     
   参数说明 
+  
     context 上下文
+    
     归因平台 平台  
         "Facebook" 对应填写 "FB"  
         "TikTok"  对应填写 "TT"
         "KWai"  对应填写 "KW"
+        
     DetailBody 接口参数 解析上述接收到的参数 并添加事件名称
  
