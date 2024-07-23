@@ -38,16 +38,13 @@
       }
       @SuppressLint("SetTextI18n")
       private void handleIntent(Intent intent) {
-        data = intent.getData();
+        Uri data = intent.getData();
         if (data != null && "io".equals(data.getScheme())) {
-          Log.e(TAG,data.getScheme());
-          Log.e(TAG, Objects.requireNonNull(data.getHost()));
           String action = data.getHost();
           if ("saveData".equals(action)) {
             List<String> params = data.getPathSegments();
             String key = params.get(0);
             String value = params.get(1);
-            Log.e(TAG,key+" = "+value);
           }
         }
       }
