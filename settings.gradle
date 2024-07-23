@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+//        maven { url uri("D:\\soft\\apache-maven-3.9.8\\maven-repo") }
+
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+//        maven { url uri("D:\\soft\\apache-maven-3.9.8\\maven-repo") }
+
+    }
+}
+rootProject.name = "CustomeTWA"
+include ':app'
+include ':upapp'
