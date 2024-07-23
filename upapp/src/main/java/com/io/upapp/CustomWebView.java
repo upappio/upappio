@@ -23,7 +23,7 @@ public class CustomWebView {
     private static CustomTabsClient mClient;
     private static CustomTabsSession mSession;
 
-    private static  String mDomain = "https://newo.qunfan.cc";
+    private static  String appUrl = "";
 
     private static boolean mValidated = false;
 
@@ -32,26 +32,14 @@ public class CustomWebView {
     @SuppressLint("StaticFieldLeak")
     private static Context mContext = null;
 
-    private CustomWebView(Context context) {
+    public CustomWebView(Context context,String url) {
         mContext = context;
+        appUrl = url;
     }
 
-    public CustomWebView(Context context,String domain) {
-        mContext = context;
-        mDomain = domain;
-    }
-
-    public static CustomWebView getInstance(Context context){
+    public static CustomWebView getInstance(Context context,String url){
         if (mCustomWebView == null){
-            mCustomWebView = new CustomWebView(context);
-            bindCustomTabsService();
-        }
-        return mCustomWebView;
-    }
-
-    public static CustomWebView getInstance(Context context,String domain){
-        if (mCustomWebView == null){
-            mCustomWebView = new CustomWebView(context,domain);
+            mCustomWebView = new CustomWebView(context,url);
             bindCustomTabsService();
         }
         return mCustomWebView;
@@ -82,12 +70,10 @@ public class CustomWebView {
                     if (navigationEvent != NAVIGATION_FINISHED) {
                         return;
                     }
-
                     if (!mValidated) {
                         Log.d(TAG, "Not starting PostMessage as validation didn't succeed.");
                     }
-                    Uri SOURCE_ORIGIN = Uri.parse(mDomain + "/pwa_app/page_view_test.html");
-                    Uri TARGET_ORIGIN = Uri.parse(mDomain +  "/pwa_app/page_view_test.html");
+                    Uri SOURCE_ORIGIN = Uri.parse(appUrl);
                     boolean result = mSession.requestPostMessageChannel(SOURCE_ORIGIN);
                     Log.d(TAG, "Requested Post Message Channel: " + result);
                 }
@@ -126,13 +112,11 @@ public class CustomWebView {
     }
 
     private static void launch() {
-        String appUrl = "/pwa_app/page_view_test.html?up_id=32";
-        Uri URL = Uri.parse(mDomain + appUrl);
+
+        Uri URL = Uri.parse(appUrl);
         Intent intent = new TrustedWebActivityIntentBuilder(URL).build(mSession).getIntent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
-//             new TrustedWebActivityIntentBuilder(URL).build(mSession)
-//             .launchTrustedWebActivity(mContext);
     }
 
 }

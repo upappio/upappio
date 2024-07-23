@@ -32,10 +32,10 @@ public class ApiMethods {
         ApiSubscribe(ApiStrategy.getApiService().sendFbEvent(bo), mContext, observer);
     }
     public static void sendTiTokEvent(Observer observer, DetailBody bo,Context mContext) {
-        ApiSubscribe(ApiStrategy.getApiService().sendFbEvent(bo), mContext, observer);
+        ApiSubscribe(ApiStrategy.getApiService().sendTiTokEvent(bo), mContext, observer);
     }
     public static void sendKwaiEvent(Observer observer, DetailBody bo,Context mContext) {
-        ApiSubscribe(ApiStrategy.getApiService().sendFbEvent(bo), mContext, observer);
+        ApiSubscribe(ApiStrategy.getApiService().sendKwaiEvent(bo), mContext, observer);
     }
 
     public static void sendEvent(Context context,String channel,DetailBody bo) {
