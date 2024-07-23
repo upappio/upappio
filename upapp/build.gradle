@@ -1,0 +1,71 @@
+plugins {
+    id 'com.android.library'
+//    id 'maven-publish'
+}
+//apply from: 'maven_push.gradle'
+apply from: 'debug_maven_push.gradle'
+
+android {
+    namespace 'com.io.upapp'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.browser:browser:1.6.0-alpha01'
+    implementation("com.squareup.retrofit2:retrofit:2.3.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.1.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.0")
+}
+
+
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            maven(MavenPublication) {
+//                groupId 'com.io.upapp'
+//                artifactId 'upapp'
+//                version '1.0.0'
+//                from components.release
+//            }
+//        }
+//        repositories {
+//            maven { url uri("D:\\soft\\apache-maven-3.9.8\\maven-repo") }
+//        }
+//    }
+//}
+//
+//task proguard(type: ProGuardTask) {
+//    injars 'build/intermediates/library_and_local_jars_jars/debug/jars/libs/upapp.jar'
+//    outjars 'build/intermediates/proguard/debug/proguard/out.jar'
+//    libraryjars 'C:/Users/Administrator/AppData/Local/Android/Sdk/platforms/android-34/android.jar'
+//    dontobfuscate()
+//    dontwarn 'com.io.upapp.**'
+//}
+//task jarLib(type: Jar,dependsOn: ['build']){
+//    archiveName = "upapp.jar"
+//    from('build/intermediates/javac/release/classes')
+//    destinationDir =  file('build/libs')
+//    include 'com/io/upapp/**'
+//}
