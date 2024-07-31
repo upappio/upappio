@@ -7,8 +7,11 @@ import android.content.Context;
 
 import java.util.List;
 
+import com.io.upapp.http.body.AppBody;
 import com.io.upapp.http.body.DetailBody;
 import com.io.upapp.http.model.BaseR;
+import com.io.upapp.http.model.W2aModel;
+
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -38,6 +41,11 @@ public class ApiMethods {
         ApiSubscribe(ApiStrategy.getApiService().sendKwaiEvent(bo), mContext, observer);
     }
 
+    public static void getAppInfo(Observer observer, AppBody bo, Context mContext) {
+        ApiSubscribe(ApiStrategy.getApiService().getAppInfo(bo), mContext, observer);
+    }
+
+
     public static void sendEvent(Context context,String channel,DetailBody bo) {
         ObserverOnNextListener<BaseR> listenerInfo = reposeUserInfo -> {
             if (reposeUserInfo == null)
@@ -54,4 +62,6 @@ public class ApiMethods {
             sendKwaiEvent(new MyObserver(context, listenerInfo),bo,context);
         }
     }
+
+
 }

@@ -7,16 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import com.io.upapp.CustomEventApi;
 import com.io.upapp.CustomWebView;
-import com.io.upapp.http.ApiMethods;
-import com.io.upapp.http.body.DetailBody;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         if (newBase == null) {
             return;
         }
-        CustomWebView.getInstance(newBase,"https://newo.qunfan.cc/pwa_app/page_view_test.html?up_id=32");
+        CustomWebView.getInstance(newBase,getPackageName());
         super.attachBaseContext(newBase);
     }
 
@@ -54,11 +51,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String upApp = mSharedPrefUtil.getValue("upApp");
                 Log.e(TAG,upApp);
-                if (!TextUtils.isEmpty(upApp)){
-                    DetailBody detailBody =    new Gson().fromJson(upApp, DetailBody.class);
-                    detailBody.setEventName("OpenAPK");
-                    ApiMethods.sendEvent(MainActivity.this,"TT",detailBody);
-                }
+                CustomEventApi.sendEvent(MainActivity.this,upApp,"OpenAPP");
 
             }
         });

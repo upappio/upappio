@@ -25,8 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ApiStrategy {
-//    public static String baseUrl = "https://api.keralalottery.cc";
-    public static String baseUrl = " https://newo.qunfan.cc/";
+    public static String baseUrl = " https://wapi.upapp.io/";
     public static final int READ_TIME_OUT = 10000;
     public static final int CONNECT_TIME_OUT = 10000;
 
