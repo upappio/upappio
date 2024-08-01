@@ -38,16 +38,13 @@
       }
       @SuppressLint("SetTextI18n")
       private void handleIntent(Intent intent) {
-        data = intent.getData();
+        Uri data = intent.getData();
         if (data != null && "io".equals(data.getScheme())) {
-          Log.e(TAG,data.getScheme());
-          Log.e(TAG, Objects.requireNonNull(data.getHost()));
           String action = data.getHost();
           if ("saveData".equals(action)) {
             List<String> params = data.getPathSegments();
             String key = params.get(0);
             String value = params.get(1);
-            Log.e(TAG,key+" = "+value);
           }
         }
       }
@@ -68,10 +65,13 @@
     ApiMethods.sendEvent(MainActivity.this,归因平台,detailBody);
     
   参数说明 
+  
     context 上下文
+    
     归因平台 平台  
         "Facebook" 对应填写 "FB"  
         "TikTok"  对应填写 "TT"
         "KWai"  对应填写 "KW"
+        
     DetailBody 接口参数 解析上述接收到的参数 并添加事件名称
  
