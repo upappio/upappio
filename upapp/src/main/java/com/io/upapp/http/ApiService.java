@@ -14,13 +14,13 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 
-    @POST("w2a_api/piexl/send/fb/event")
+    @POST("w2a_api/wta/send/fb/event")
     Observable<BaseR> sendFbEvent(@Body DetailBody bo);
 
-    @POST("w2a_api/piexl/send/tiktok/event")
+    @POST("w2a_api/wta/send/tiktok/event")
     Observable<BaseR> sendTiTokEvent(@Body DetailBody bo);
 
-    @POST("w2a_api/piexl/send/kwai/event")
+    @POST("w2a_api/wta/send/kwai/event")
     Observable<BaseR> sendKwaiEvent(@Body DetailBody bo);
 
     @POST("w2a_api/wta/app_info")

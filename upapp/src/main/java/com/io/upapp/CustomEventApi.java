@@ -12,9 +12,9 @@ public class CustomEventApi {
 
     public static void sendEvent(Context mContext,String upApp,String eventName){
         if (!TextUtils.isEmpty(upApp)){
-            DetailBody detailBody =    new Gson().fromJson(upApp, DetailBody.class);
+            DetailBody detailBody = new Gson().fromJson(upApp, DetailBody.class);
             detailBody.setEventName(eventName);
-            ApiMethods.sendEvent(mContext,"TT",detailBody);
+            ApiMethods.sendEvent(mContext,detailBody);
         }
 
     }

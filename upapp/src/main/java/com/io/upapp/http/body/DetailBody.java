@@ -4,7 +4,8 @@ public class DetailBody {
 
     private String upUuid;
 
-    private String  avChannelId;
+    private String platform;
+    private String  advChannelId;
     private String eventName;
 
     public String getUpUuid() {
@@ -16,11 +17,11 @@ public class DetailBody {
     }
 
     public String getAvChannelId() {
-        return avChannelId;
+        return advChannelId;
     }
 
     public void setAvChannelId(String avChannelId) {
-        this.avChannelId = avChannelId;
+        this.advChannelId = avChannelId;
     }
 
     public String getEventName() {
@@ -29,5 +30,13 @@ public class DetailBody {
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 }

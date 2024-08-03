@@ -59,10 +59,11 @@ public class CustomWebView {
             }
             int code = w2aModelBaseR.getCode();
             if (code == 200) {
+
                 W2aModel w2aModel = w2aModelBaseR.getData();
-                W2aModel.InfoBean info = w2aModel.getInfo();
-                String domain = info.getDomain();//TODO 获取着陆页url
-                Uri uri = Uri.parse(domain);
+                W2aModel.SiteBean site = w2aModel.getSite();
+                String landingUrl = site.getLandingUrl();
+                Uri uri = Uri.parse(landingUrl);
                 Uri appUrl = uri.buildUpon()
                         .appendQueryParameter("package", mPackageName)
                         .build();

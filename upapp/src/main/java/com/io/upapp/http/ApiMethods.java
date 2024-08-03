@@ -46,19 +46,22 @@ public class ApiMethods {
     }
 
 
-    public static void sendEvent(Context context,String channel,DetailBody bo) {
+    public static void getVisitorInfo(Observer observer, AppBody bo, Context mContext) {
+        ApiSubscribe(ApiStrategy.getApiService().getVisitorInfo(bo), mContext, observer);
+    }
+
+
+    public static void sendEvent(Context context,DetailBody bo) {
+        String platform = bo.getPlatform();
         ObserverOnNextListener<BaseR> listenerInfo = reposeUserInfo -> {
             if (reposeUserInfo == null)
                 return;
-            int code = reposeUserInfo.getCode();
-            if (code == 200) {
-            }
         };
-        if ("FB".equals(channel)){
+        if ("Facebook".equals(platform)){
             sendFbEvent(new MyObserver(context, listenerInfo),bo,context);
-        }else if ("TT".equals(channel)){
+        }else if ("TikTok".equals(platform)){
             sendTiTokEvent(new MyObserver(context, listenerInfo),bo,context);
-        }else if ("KW".equals(channel)){
+        }else if ("KWai".equals(platform)){
             sendKwaiEvent(new MyObserver(context, listenerInfo),bo,context);
         }
     }

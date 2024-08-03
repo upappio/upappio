@@ -19,7 +19,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import retrofit2.HttpException;
 
-public class MyObserver<T> implements Observer<BaseR<T>> {
+public class MyObserver<T> implements Observer<T> {
     private static final String TAG = "observer";
     private ObserverOnNextListener listener;
     private Context context;
@@ -34,18 +34,23 @@ public class MyObserver<T> implements Observer<BaseR<T>> {
         Log.d(TAG, "onSubscribe: ");
     }
 
+//    @Override
+//    public void onNext(BaseR<T> value) {
+//        if (value==null)return;
+//        if (value.getCode() == 200){
+//            if (listener != null) {
+//                listener.onNext(value);
+//            }
+//        }else {
+//            ToastUtil.getInstance(context).showToast(value.getMsg());
+//        }
+//    }
     @Override
-    public void onNext(BaseR<T> value) {
-        if (value==null)return;
-        if (value.getCode() == 200){
-            if (listener != null) {
-                listener.onNext(value.getData());
-            }
-        }else {
-            ToastUtil.getInstance(context).showToast(value.getMsg());
+    public void onNext(T t) {
+        if (listener != null) {
+            listener.onNext(t);
         }
     }
-
     @SuppressLint("SuspiciousIndentation")
     @Override
     public void onError(Throwable e) {

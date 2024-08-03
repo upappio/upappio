@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         if (newBase == null) {
             return;
         }
-        CustomWebView.getInstance(newBase,getPackageName());
+        CustomWebView.getInstance(newBase,"com.custom.custometwa");
         super.attachBaseContext(newBase);
     }
 
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 String upApp = mSharedPrefUtil.getValue("upApp");
                 Log.e(TAG,upApp);
                 CustomEventApi.sendEvent(MainActivity.this,upApp,"OpenAPP");
-
             }
         });
         handleIntent(getIntent());
