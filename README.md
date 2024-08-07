@@ -1,7 +1,7 @@
 #  快速开始
-  在app的build.gradle文件中添加依赖
+   在app的build.gradle文件中添加依赖
 
-  implementation "io.github.upappio:upapp:3.1.0"
+      implementation "io.github.upappio:upapp:3.3.0"
    
 # 接收参数
 
