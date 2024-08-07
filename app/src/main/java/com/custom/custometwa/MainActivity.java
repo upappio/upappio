@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         mSharedPrefUtil = new SharedPrefUtil(this);
 
         mtextView = findViewById(R.id.textView);
+        String upApp = mSharedPrefUtil.getValue("upApp");
+        mtextView.setText(upApp);
         btn = findViewById(R.id.btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

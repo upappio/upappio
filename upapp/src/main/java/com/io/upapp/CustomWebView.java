@@ -22,6 +22,7 @@ import com.io.upapp.http.ObserverOnNextListener;
 import com.io.upapp.http.body.AppBody;
 import com.io.upapp.http.model.BaseR;
 import com.io.upapp.http.model.W2aModel;
+import com.io.upapp.util.SharedPrefUtil;
 
 
 public class CustomWebView {
@@ -38,9 +39,12 @@ public class CustomWebView {
     @SuppressLint("StaticFieldLeak")
     private static Context mContext = null;
 
+    private static SharedPrefUtil mSharedPrefUtil;
+
     public CustomWebView(Context context,String packageName) {
         mContext = context;
         mPackageName = packageName;
+        mSharedPrefUtil = new SharedPrefUtil(mContext);
     }
 
     public static CustomWebView getInstance(Context context,String packageName){
@@ -52,87 +56,88 @@ public class CustomWebView {
     }
 
     public static void bindCustomTabsService() {
+        boolean isFirstTime = mSharedPrefUtil.getBolValue("isFirstTime",true);
+        if (isFirstTime){
+            ApiMethods.getAppInfo(new MyObserver(mContext, (ObserverOnNextListener<BaseR<W2aModel>>) w2aModelBaseR -> {
+                if (w2aModelBaseR == null){
+                    return;
+                }
+                int code = w2aModelBaseR.getCode();
+                if (code == 200) {
 
-        ApiMethods.getAppInfo(new MyObserver(mContext, (ObserverOnNextListener<BaseR<W2aModel>>) w2aModelBaseR -> {
-            if (w2aModelBaseR == null){
-                return;
-            }
-            int code = w2aModelBaseR.getCode();
-            if (code == 200) {
+                    W2aModel w2aModel = w2aModelBaseR.getData();
+                    W2aModel.SiteBean site = w2aModel.getSite();
+                    String landingUrl = site.getLandingUrl();
+                    Uri uri = Uri.parse(landingUrl);
+                    Uri appUrl = uri.buildUpon()
+                            .appendQueryParameter("package", mPackageName)
+                            .build();
+                    CustomTabsClient.bindCustomTabsService(mContext, "com.android.chrome",
+                            new CustomTabsServiceConnection() {
+                                @Override
+                                public void onCustomTabsServiceConnected(@NonNull ComponentName name,
+                                                                         @NonNull CustomTabsClient client) {
+                                    mClient = client;
 
-                W2aModel w2aModel = w2aModelBaseR.getData();
-                W2aModel.SiteBean site = w2aModel.getSite();
-                String landingUrl = site.getLandingUrl();
-                Uri uri = Uri.parse(landingUrl);
-                Uri appUrl = uri.buildUpon()
-                        .appendQueryParameter("package", mPackageName)
-                        .build();
-                CustomTabsClient.bindCustomTabsService(mContext, "com.android.chrome",
-                        new CustomTabsServiceConnection() {
-                            @Override
-                            public void onCustomTabsServiceConnected(@NonNull ComponentName name,
-                                                                     @NonNull CustomTabsClient client) {
-                                mClient = client;
+                                    mClient.warmup(0L);
 
-                                mClient.warmup(0L);
-
-                                mSession = mClient.newSession( new CustomTabsCallback() {
-                                    @Override
-                                    public void onPostMessage(@NonNull String message, @Nullable Bundle extras) {
-                                        super.onPostMessage(message, extras);
-                                        if (message.contains("ACK")) {
-                                            return;
-                                        }
-                                        Log.d(TAG, "Got message: " + message);
-                                    }
-
-                                    @Override
-                                    public void onRelationshipValidationResult(int relation, @NonNull Uri requestedOrigin,
-                                                                               boolean result, @Nullable Bundle extras) {
-                                        Log.d(TAG, "Relationship result: " + result);
-                                        Log.d(TAG, "relation result: " + relation);
-                                        Log.d(TAG, "requestedOrigin result: " + requestedOrigin);
-                                        mValidated = result;
-                                    }
-
-                                    @Override
-                                    public void onNavigationEvent(int navigationEvent, @Nullable Bundle extras) {
-                                        if (navigationEvent != NAVIGATION_FINISHED) {
-                                            return;
-                                        }
-                                        if (!mValidated) {
-                                            Log.d(TAG, "Not starting PostMessage as validation didn't succeed.");
+                                    mSession = mClient.newSession( new CustomTabsCallback() {
+                                        @Override
+                                        public void onPostMessage(@NonNull String message, @Nullable Bundle extras) {
+                                            super.onPostMessage(message, extras);
+                                            if (message.contains("ACK")) {
+                                                return;
+                                            }
+                                            Log.d(TAG, "Got message: " + message);
                                         }
 
-                                        boolean result = mSession.requestPostMessageChannel(appUrl);
-                                        Log.d(TAG, "Requested Post Message Channel: " + result);
-                                    }
+                                        @Override
+                                        public void onRelationshipValidationResult(int relation, @NonNull Uri requestedOrigin,
+                                                                                   boolean result, @Nullable Bundle extras) {
+                                            Log.d(TAG, "Relationship result: " + result);
+                                            Log.d(TAG, "relation result: " + relation);
+                                            Log.d(TAG, "requestedOrigin result: " + requestedOrigin);
+                                            mValidated = result;
+                                        }
 
-                                    @Override
-                                    public void onMessageChannelReady(@Nullable Bundle extras) {
-                                        Log.d(TAG, "Message channel ready.");
+                                        @Override
+                                        public void onNavigationEvent(int navigationEvent, @Nullable Bundle extras) {
+                                            if (navigationEvent != NAVIGATION_FINISHED) {
+                                                return;
+                                            }
+                                            if (!mValidated) {
+                                                Log.d(TAG, "Not starting PostMessage as validation didn't succeed.");
+                                            }
 
-                                        int result = mSession.postMessage("First message", null);
-                                        Log.d(TAG, "postMessage returned: " + result);
-                                    }
-                                });
+                                            boolean result = mSession.requestPostMessageChannel(appUrl);
+                                            Log.d(TAG, "Requested Post Message Channel: " + result);
+                                        }
 
-                                launch(appUrl);
-                            }
+                                        @Override
+                                        public void onMessageChannelReady(@Nullable Bundle extras) {
+                                            Log.d(TAG, "Message channel ready.");
 
-                            @Override
-                            public void onServiceDisconnected(ComponentName componentName) {
-                                mClient = null;
-                            }
-                        });
+                                            int result = mSession.postMessage("First message", null);
+                                            Log.d(TAG, "postMessage returned: " + result);
+                                        }
+                                    });
 
-            }
-        }),new AppBody(mPackageName),mContext);
+                                    launch(appUrl);
+                                }
 
+                                @Override
+                                public void onServiceDisconnected(ComponentName componentName) {
+                                    mClient = null;
+                                }
+                            });
 
+                }
+            }),new AppBody(mPackageName),mContext);
+        }
     }
 
     private static void launch(Uri URL) {
+        mSharedPrefUtil.setSharedPref("isFirstTime",false);
         Intent intent = new TrustedWebActivityIntentBuilder(URL).build(mSession).getIntent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);

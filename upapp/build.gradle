@@ -2,8 +2,8 @@ plugins {
     id 'com.android.library'
 //    id 'maven-publish'
 }
-//apply from: 'maven_push.gradle'
-apply from: 'debug_maven_push.gradle'
+apply from: 'maven_push.gradle'
+//apply from: 'debug_maven_push.gradle'
 
 android {
     namespace 'com.io.upapp'
