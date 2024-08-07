@@ -1,9 +1,17 @@
 #  快速开始
   在app的build.gradle文件中添加依赖
 
-  implementation "io.upapp.io:upapp:1.0.0"
+  implementation "io.github.upappio:upapp:3.1.0"
    
 # 接收参数
+
+   在入口文件或者Application中调用打开 CustomWebView 打开下载页
+
+      CustomWebView.getInstance(Context,"包名");
+
+   该页面可作为引导页使用 仅打开一次  会自动关闭 发送数据 并打开接收页
+
+   配置接收页 如MainActivity
 
    编辑Manifest.xml
    构造接收类  如接收类为MainActivity 添加协议 并使 android:exported="true"
@@ -49,29 +57,12 @@
         }
       }
       
-  将接收到的value值 做保存 方便归因的时候 传参
+  将接收到的value值 做保存 方便归因的时候使用
    
 # 归因
-  在入口文件或者Application中调用打开 CustomWebView 打开下载页
-  
-    CustomWebView.getInstance(Context,下载页地址);
-    
-  该页面可作为引导页使用 会自动关闭 并打开接收页 发送数据
-
+ 
   使用转化api 进行归因 
   
-    DetailBody detailBody = new Gson().fromJson(upApp, DetailBody.class);
-    detailBody.setEventName(事件名称);
-    ApiMethods.sendEvent(MainActivity.this,归因平台,detailBody);
-    
-  参数说明 
-  
-    context 上下文
-    
-    归因平台 平台  
-        "Facebook" 对应填写 "FB"  
-        "TikTok"  对应填写 "TT"
-        "KWai"  对应填写 "KW"
-        
-    DetailBody 接口参数 解析上述接收到的参数 并添加事件名称
+     CustomEventApi.sendEvent(Context,"Intent接收到的value","事件名称");
+
  

@@ -68,6 +68,12 @@ public class CustomWebView {
                     W2aModel w2aModel = w2aModelBaseR.getData();
                     W2aModel.SiteBean site = w2aModel.getSite();
                     String landingUrl = site.getLandingUrl();
+                    if (site.getPageType().equals("1")){
+                        String googleDome = site.getGoogleDome();
+                        W2aModel.InfoBean info = w2aModel.getInfo();
+                        String domain = info.getDomain();
+                        landingUrl = "https://" + domain + "/" + googleDome + ".html";
+                    }
                     Uri uri = Uri.parse(landingUrl);
                     Uri appUrl = uri.buildUpon()
                             .appendQueryParameter("package", mPackageName)
