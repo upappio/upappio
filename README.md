@@ -65,4 +65,69 @@
   
      CustomEventApi.sendEvent(Context,"Intent接收到的value","事件名称");
 
+
+
+## 注意事项
+
+1. 确保定义的着陆页 配置的像素信息 已在后台 域名管理中添加
+2. 确保着陆页域名和 后台应该管理中填写的域名一致
+3. 确保w2a生成模板 着陆页url 已填写
+
+## 如何使用
+
+1.  在<head>中引用 platform.js 文件
+2.  在 页面加载完成时调用 platform.getWebInfo() 方法
+3.  在 点击 下载时 先调用 platform.installClickEvent() 方法
+4.  在 Android app 应该中 请按照 开发sdk 模块引用依赖, 依赖会将该着陆页 会自动拼接包名 作为引导页再次打开 
+5.  可以仿照以下例子 添加一个loading 布局 在着陆页中 
+ 
+        <head>
+           <script src="js/platform.js"></script>
+           <style>
+              body{
+                 margin: 0;
+              }
+              .web{
+                 width: 100vw;
+                 height: 100vh;
+                 color: white;
+                 background-color: #000000;
+                 display: flex;
+                 justify-content: center;
+                 align-items: center;
+                 font-size: 24px;
+              }
+              .loader {
+                 font-size: 24px;
+                 font-weight: bold;
+                 color: white;
+                 text-shadow: 1px 1px 2px black;
+                 position: relative;
+                 overflow: hidden;
+              }
+           </style>
+    
+        </head>
+        <body>
+             ...
+
+           <div id="webFull" class="web">
+               <div class="loader">{{loader}}</div>
+           </div>
+         <script>
+             document.addEventListener('DOMContentLoaded', async () => {
+                let params = new URLSearchParams(window.location.search);
+                let packageName = params.get("package")
+                if (packageName){
+                document.getElementById('installWrap').style.display = 'none';
+                document.getElementById('webFull').style.display = 'flex';
+                document.getElementById('webFull').style.backgroundColor = '#000';
+                platform.changeInstallState();
+             }});
+           </script>
+         </body>
+
+
+
+
  
