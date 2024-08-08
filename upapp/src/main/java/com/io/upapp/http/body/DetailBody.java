@@ -8,6 +8,16 @@ public class DetailBody {
     private String  advChannelId;
     private String eventName;
 
+    private String devKey;
+
+    public String getDevKey() {
+        return devKey;
+    }
+
+    public void setDevKey(String devKey) {
+        this.devKey = devKey;
+    }
+
     public String getUpUuid() {
         return upUuid;
     }
