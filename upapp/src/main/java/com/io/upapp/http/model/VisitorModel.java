@@ -35,6 +35,15 @@ public class VisitorModel {
     private String ttclid;
     private String clickId;
     private String packageName;
+    private String isOpenTwa;
+
+    public String getIsOpenTwa() {
+        return isOpenTwa;
+    }
+
+    public void setIsOpenTwa(String isOpenTwa) {
+        this.isOpenTwa = isOpenTwa;
+    }
 
     public String getCreateBy() {
         return createBy;

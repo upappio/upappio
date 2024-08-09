@@ -5,12 +5,12 @@ package com.io.upapp.http;
 import android.content.Context;
 
 
-import java.util.List;
 
 import com.io.upapp.http.body.AppBody;
-import com.io.upapp.http.body.DetailBody;
+import com.io.upapp.http.body.FBEventBody;
+import com.io.upapp.http.body.KWEventBody;
+import com.io.upapp.http.body.TTEventBody;
 import com.io.upapp.http.model.BaseR;
-import com.io.upapp.http.model.W2aModel;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -31,13 +31,13 @@ public class ApiMethods {
                 .subscribe(observer);
     }
 
-    public static void sendFbEvent(Observer observer, DetailBody bo, Context mContext) {
+    public static void sendFbEvent(Observer observer, FBEventBody bo, Context mContext) {
         ApiSubscribe(ApiStrategy.getApiService().sendFbEvent(bo), mContext, observer);
     }
-    public static void sendTiTokEvent(Observer observer, DetailBody bo,Context mContext) {
+    public static void sendTiTokEvent(Observer observer, TTEventBody bo,Context mContext) {
         ApiSubscribe(ApiStrategy.getApiService().sendTiTokEvent(bo), mContext, observer);
     }
-    public static void sendKwaiEvent(Observer observer, DetailBody bo,Context mContext) {
+    public static void sendKwaiEvent(Observer observer, KWEventBody bo, Context mContext) {
         ApiSubscribe(ApiStrategy.getApiService().sendKwaiEvent(bo), mContext, observer);
     }
 
@@ -51,20 +51,27 @@ public class ApiMethods {
     }
 
 
-    public static void sendEvent(Context context,DetailBody bo) {
-        String platform = bo.getPlatform();
+    public static void sendFBEvent(Context context,FBEventBody bo) {
         ObserverOnNextListener<BaseR> listenerInfo = reposeUserInfo -> {
             if (reposeUserInfo == null)
                 return;
         };
-        if ("Facebook".equals(platform)){
-            sendFbEvent(new MyObserver(context, listenerInfo),bo,context);
-        }else if ("TikTok".equals(platform)){
-            sendTiTokEvent(new MyObserver(context, listenerInfo),bo,context);
-        }else if ("KWai".equals(platform)){
-            sendKwaiEvent(new MyObserver(context, listenerInfo),bo,context);
-        }
-    }
+        sendFbEvent(new MyObserver(context, listenerInfo),bo,context);
 
+    }
+    public static void sendTiTokEvent(Context context, TTEventBody bo) {
+        ObserverOnNextListener<BaseR> listenerInfo = reposeUserInfo -> {
+            if (reposeUserInfo == null)
+                return;
+        };
+        sendTiTokEvent(new MyObserver(context, listenerInfo),bo,context);
+    }
+    public static void sendKwaiEvent(Context context,KWEventBody bo) {
+        ObserverOnNextListener<BaseR> listenerInfo = reposeUserInfo -> {
+            if (reposeUserInfo == null)
+                return;
+        };
+        sendKwaiEvent(new MyObserver(context, listenerInfo),bo,context);
+    }
 
 }

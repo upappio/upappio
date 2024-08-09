@@ -6,6 +6,16 @@ public class AppBody {
 
     private String upUuid;
 
+    private String devKey;
+
+    public String getDevKey() {
+        return devKey;
+    }
+
+    public void setDevKey(String devKey) {
+        this.devKey = devKey;
+    }
+
     public String getPackageName() {
         return packageName;
     }

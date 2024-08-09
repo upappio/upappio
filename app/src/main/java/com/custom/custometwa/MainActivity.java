@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.io.upapp.CustomEventApi;
 import com.io.upapp.CustomWebView;
+import com.io.upapp.http.body.DetailBody;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,9 +52,12 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String upApp = mSharedPrefUtil.getValue("upApp");
-                Log.e(TAG,upApp);
-                CustomEventApi.sendEvent(MainActivity.this,upApp,"OpenAPP");
+                DetailBody body = new DetailBody("OpenAPP");
+                body.setDescription("web page");
+                body.setPrice(1.00);
+                body.setCurrency("USD");
+                body.setBrand("Fancy Sneakers");
+                CustomEventApi.sendEvent(MainActivity.this,body);
             }
         });
         handleIntent(getIntent());
@@ -85,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG,key+" = "+value);
                 mtextView.setText(key+" = "+value);
 
-                mSharedPrefUtil.setSharedPref("upApp",value);
+                CustomEventApi.getVisitorInfo(MainActivity.this,value);
             }
         }
     }
