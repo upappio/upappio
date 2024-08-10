@@ -62,9 +62,15 @@
    
 # 归因
  
-  调用DetailBody类 进行封装归因参数 如事件名称,货币单位,价格等 
-
-    CustomEventApi.sendEvent(Context,DetailBody); 
+1. 调用DetailBody实体类 进行封装归因参数 如事件名称,货币单位,价格等
+2. 调用CustomEventApi.sendEvent(Context,DetailBody);进行归因
+   
+       DetailBody body = new DetailBody("purchase");
+       body.setDescription("web page");
+       body.setPrice(1.00);
+       body.setCurrency("USD");
+       body.setBrand("Fancy Sneakers");
+       CustomEventApi.sendEvent(MainActivity.this,body);
 
 # 参数 
     Context: 上下文
