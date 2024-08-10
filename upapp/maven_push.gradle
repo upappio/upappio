@@ -26,7 +26,7 @@ ext["ossrhPassword"] = properties.getProperty('maven.password')
 //正式版本的域名
 def GROUP_ID = 'io.github.upappio'
 def ARTIFACT_ID = 'upapp'
-def VERSION_NAME = '3.4.0'
+def VERSION_NAME = '4.1.0'
 //指定快照版本 maven仓库url
 def SNAPSHOTS_REPO_URL = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
 //指定正式版本 maven仓库url
