@@ -53,18 +53,21 @@
             List<String> params = data.getPathSegments();
             String key = params.get(0);
             String value = params.get(1);
+            CustomEventApi.getVisitorInfo(MainActivity.this,value);
           }
         }
       }
       
-  将接收到的value值 做保存 方便归因的时候使用
+  将接收到的value值 调用CustomEventApi.getVisitorInfo(Context,value); 传输给依赖 方便以后 归因使用
    
 # 归因
  
-  使用转化api 进行归因 
-  
-     CustomEventApi.sendEvent(Context,"Intent接收到的value","事件名称");
+  调用DetailBody类 进行封装归因参数 如事件名称,货币单位,价格等 
 
+    CustomEventApi.sendEvent(Context,DetailBody); 
+
+# 参数 
+    Context: 上下文
 
 
 ## 注意事项
