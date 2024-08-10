@@ -209,7 +209,7 @@ public class FBEventBody {
 
         public static class ContentsBean {
             private String id;
-            private Long quantity;
+            private int quantity;
             private String delivery_category;
 
             private float item_price;
@@ -257,11 +257,11 @@ public class FBEventBody {
                 this.id = id;
             }
 
-            public Long getQuantity() {
+            public int getQuantity() {
                 return quantity;
             }
 
-            public void setQuantity(Long quantity) {
+            public void setQuantity(int quantity) {
                 this.quantity = quantity;
             }
 

@@ -63,7 +63,7 @@ public class CustomEventApi {
             TTEventBody.DataBean.PropertiesBean.ContentsBean contentsBean = new TTEventBody.DataBean.PropertiesBean.ContentsBean();
             contentsBean.setBrand(body.getBrand());
             contentsBean.setPrice( body.getPrice());
-            contentsBean.setQuantity(Math.toIntExact(body.getQuantity()));
+            contentsBean.setQuantity(body.getQuantity());
             contentsBean.setContent_name(body.getContentName());
             contentsBean.setContent_category(body.getContentCategory());
             contentsBean.setContent_id(body.getContentId());

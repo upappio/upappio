@@ -7,7 +7,7 @@ public class DetailBody {
     private double price;//价格
     private String brand;//品牌
 
-    private Long quantity;//项目的数量。
+    private int quantity;//项目的数量。
     private String contentId; //产品或内容的唯一
     private String contentType;
     private String contentName;
@@ -44,11 +44,11 @@ public class DetailBody {
         this.brand = brand;
     }
 
-    public Long getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
