@@ -1,7 +1,7 @@
 #  快速开始
    在app的build.gradle文件中添加依赖
 
-      implementation "io.github.upappio:upapp:3.3.0"
+      implementation "io.github.upappio:upapp:4.4.0"
    
 # 接收参数
 
@@ -59,12 +59,12 @@
       }
       
   将接收到的value值 调用CustomEventApi.getVisitorInfo(Context,value); 传输给依赖 方便以后 归因使用
-   
-# 归因
- 
-1. 调用DetailBody实体类 进行封装归因参数 如事件名称,货币单位,价格等
-2. 调用CustomEventApi.sendEvent(Context,DetailBody);进行归因
-   
+
+# 归因调用 
+
+1. 调用`DetailBody`实体类进行封装归因参数 如事件名称,货币单位,价格等
+2. 调用`CustomEventApi.sendEvent(Context,DetailBody);`进行归因
+
        DetailBody body = new DetailBody("purchase");
        body.setDescription("web page");
        body.setPrice(1.00);
@@ -72,8 +72,37 @@
        body.setBrand("Fancy Sneakers");
        CustomEventApi.sendEvent(MainActivity.this,body);
 
-# 参数 
+# Google归因
+本sdk使用的Firebase来做的Google归因 需要完成以下对接 
+1. 在Firebase控制中心创建项目 并下载google-services.json 文件 放在 app 目录下
+2. 自定义Application页面 继承 UpAPP类 并在清单文件 application标签中引用
+
+        public class CustomAPP extends UpApp{}
+        <application
+            ...
+            android:name=".CustomAPP">
+3. 在project的build.gradle文件中添加
+    
+        plugins {
+             id 'com.android.application' version '7.3.0' apply false
+            id("com.google.gms.google-services") version "4.3.15" apply false
+        }
+4. 在app的build.gradle文件中添加
+
+        plugins {
+            id 'com.android.application'
+            id("com.google.gms.google-services")
+        }
+5. 参考归因调用模块发送事件
+
+
+# Context参数
+
     Context: 上下文
+
+
+
+
 
 
 ## 注意事项

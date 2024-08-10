@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "957150101784",
+    "project_id": "o2ot-5caf3",
+    "storage_bucket": "o2ot-5caf3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957150101784:android:e680c4ffadcacad9f49e6d",
+        "android_client_info": {
+          "package_name": "com.custom.custometwa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXaeZGKZ0pEjIaiVZucvvouDFMpagj9FM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

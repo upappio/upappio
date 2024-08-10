@@ -1,8 +1,12 @@
 package com.io.upapp;
 
+import static com.io.upapp.UpApp.mFirebaseAnalytics;
+
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.io.upapp.http.ApiMethods;
 import com.io.upapp.http.MyObserver;
@@ -87,8 +91,9 @@ public class CustomEventApi {
             propertiesBean.setContent_type(body.getContentType());
             kwEventBody.setProperties(propertiesBean);
             sendKWEvent(mContext,kwEventBody);
+        }else if ("Google".equals(advPlatform)){
+            sendFirebaseAnalyticsEvent(mContext,body);
         }
-
     }
     private static void sendFBEvent(Context mContext, FBEventBody body){
         AppBody appBody = getAppBody(mContext);
@@ -129,6 +134,26 @@ public class CustomEventApi {
                 }
 
             }),appBody,mContext);
+        }
+    }
+
+    public static  void  sendFirebaseAnalyticsEvent(Context mContext, DetailBody body){
+
+        AppBody appBody = getAppBody(mContext);
+        String upUuid = appBody.getUpUuid();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("event_id", upUuid);
+        bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID,upUuid);
+
+        if (body != null){
+            bundle.putString(FirebaseAnalytics.Param.CURRENCY, body.getCurrency() );
+            bundle.putString(FirebaseAnalytics.Param.ITEM_BRAND, body.getBrand() );
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, body.getContentId() );
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, body.getContentName() );
+            bundle.putString(FirebaseAnalytics.Param.PRICE, String.valueOf(body.getPrice()));
+            bundle.putString(FirebaseAnalytics.Param.QUANTITY, String.valueOf(body.getQuantity()));
+            mFirebaseAnalytics.logEvent(body.getEventName(), bundle);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.custom.custometwa;
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -57,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
                 body.setPrice(1.00);
                 body.setCurrency("USD");
                 body.setBrand("Fancy Sneakers");
-                CustomEventApi.sendEvent(MainActivity.this,body);
+//                CustomEventApi.sendEvent(MainActivity.this,body);
+                CustomEventApi.sendFirebaseAnalyticsEvent(MainActivity.this,body);
             }
         });
         handleIntent(getIntent());
