@@ -73,27 +73,33 @@
        CustomEventApi.sendEvent(MainActivity.this,body);
 
 # Google归因
-本sdk使用的Firebase来做的Google归因 需要完成以下对接 
-1. 在Firebase控制中心创建项目 并下载google-services.json 文件 放在 app 目录下
-2. 自定义Application页面 继承 UpAPP类 并在清单文件 application标签中引用
+本sdk使用的Firebase来做Google归因 需要完成以下对接 
+1. 在Firebase控制中心创建项目 分别添加网站应用(对应着陆页地址)和移动Android应用 
+2. 如果您使用的自定义着陆页 请自行对接Firebase;如果您使用的是生成着陆页,不需要您做其他处理
+3. 网站应用 将对应秘钥信息填写在后台域名管理模块
+4. Android应用 下载google-services.json 文件 放在 app 目录下
+5. 自定义Application页面 继承 UpAPP类 并在清单文件 application标签中引用
 
         public class CustomAPP extends UpApp{}
         <application
             ...
             android:name=".CustomAPP">
-3. 在project的build.gradle文件中添加
+
+6. 在project的build.gradle文件中添加
     
         plugins {
              id 'com.android.application' version '7.3.0' apply false
             id("com.google.gms.google-services") version "4.3.15" apply false
         }
-4. 在app的build.gradle文件中添加
+
+7. 在app的build.gradle文件中添加
 
         plugins {
             id 'com.android.application'
             id("com.google.gms.google-services")
         }
-5. 参考归因调用模块发送事件
+
+8. 参考归因调用模块发送事件
 
 
 # Context参数

@@ -26,7 +26,7 @@ ext["ossrhPassword"] = properties.getProperty('maven.password')
 //正式版本的域名
 def GROUP_ID = 'io.github.upappio'
 def ARTIFACT_ID = 'upapp'
-def VERSION_NAME = '4.4.0'
+def VERSION_NAME = '4.9.0'
 //指定快照版本 maven仓库url
 def SNAPSHOTS_REPO_URL = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
 //指定正式版本 maven仓库url
@@ -87,15 +87,26 @@ afterEvaluate {
                     // A slightly hacky fix so that your POM will include any transitive dependencies
                     // that your library builds upon
                     withXml {
-                        def dependenciesNode = asNode().appendNode('dependencies')
+                        def root = asNode()
 
+//                        def dependencyManagementNode = root.appendNode('dependencyManagement').appendNode('dependencies')
+//                        def firebaseBomNode = dependencyManagementNode.appendNode('dependency')
+//                        firebaseBomNode.appendNode('groupId', 'com.google.firebase')
+//                        firebaseBomNode.appendNode('artifactId', 'firebase-bom')
+//                        firebaseBomNode.appendNode('version', '32.3.1')
+//                        firebaseBomNode.appendNode('type', 'pom')
+//                        firebaseBomNode.appendNode('scope', 'import')
+
+                        def dependenciesNode = root.appendNode('dependencies')
                         project.configurations.implementation.allDependencies.each {
-                            if (!it.name.endsWith('firebase-analytics')) {
+//                            if('firebase-bom' != it.name){
                                 def dependencyNode = dependenciesNode.appendNode('dependency')
                                 dependencyNode.appendNode('groupId', it.group)
                                 dependencyNode.appendNode('artifactId', it.name)
-                                dependencyNode.appendNode('version', it.version)
-                            }
+//                                if ('firebase-analytics' != it.name) {
+                                    dependencyNode.appendNode('version', it.version)
+//                                }
+//                            }
                         }
                     }
                 }
