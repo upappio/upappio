@@ -5,17 +5,54 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
+        android:padding="10dp"
         android:orientation="vertical">
     <TextView
-            android:id="@+id/textView"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:background="@drawable/bg_teal_main">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello World!" />
+        </ScrollView>
+        <ProgressBar
+            android:id="@+id/loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"/>
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/purple_700"
+            android:progressTint="@color/purple_700"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
     <Button
             android:id="@+id/btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="点击"/>
+            android:text="发送事件"/>
 
+    <Button
+        android:id="@+id/btn_get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取访客信息"/>
+
+    <Button
+        android:id="@+id/btn_get_param"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取着陆页参数"/>
 </LinearLayout>

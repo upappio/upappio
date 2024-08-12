@@ -1,7 +1,15 @@
 package com.io.upapp.http.model;
 
-public class VisitorModel {
+import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+
+import java.io.Serializable;
+import java.lang.reflect.Field;
+
+public class VisitorModel implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String createBy;
     private String createTime;
@@ -299,5 +307,44 @@ public class VisitorModel {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    @Override
+    public String toString() {
+        return "VisitorModel{" +
+                "createBy='" + createBy + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateBy='" + updateBy + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", remark='" + remark + '\'' +
+                ", id=" + id +
+                ", upUuid='" + upUuid + '\'' +
+                ", userId=" + userId +
+                ", siteId=" + siteId +
+                ", appId=" + appId +
+                ", fbc='" + fbc + '\'' +
+                ", fbp='" + fbp + '\'' +
+                ", ttp='" + ttp + '\'' +
+                ", host='" + host + '\'' +
+                ", postLink='" + postLink + '\'' +
+                ", ua='" + ua + '\'' +
+                ", vendor='" + vendor + '\'' +
+                ", appVersion='" + appVersion + '\'' +
+                ", ip='" + ip + '\'' +
+                ", installState='" + installState + '\'' +
+                ", platform='" + platform + '\'' +
+                ", os='" + os + '\'' +
+                ", userAgent='" + userAgent + '\'' +
+                ", postParam='" + postParam + '\'' +
+                ", width='" + width + '\'' +
+                ", height='" + height + '\'' +
+                ", brand='" + brand + '\'' +
+                ", title='" + title + '\'' +
+                ", fbcLid='" + fbcLid + '\'' +
+                ", ttclid='" + ttclid + '\'' +
+                ", clickId='" + clickId + '\'' +
+                ", packageName='" + packageName + '\'' +
+                ", isOpenTwa='" + isOpenTwa + '\'' +
+                '}';
     }
 }

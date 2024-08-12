@@ -50,12 +50,14 @@ public class CustomWebView {
     public static CustomWebView getInstance(Context context,String packageName){
         if (mCustomWebView == null){
             mCustomWebView = new CustomWebView(context,packageName);
-            bindCustomTabsService();
         }
         return mCustomWebView;
     }
 
-    public static void bindCustomTabsService() {
+    public static void bindCustomTabsService(Context context,String packageName,Class<?> cls) {
+        mContext = context;
+        mPackageName = packageName;
+        mSharedPrefUtil = new SharedPrefUtil(mContext);
         boolean isFirstTime = mSharedPrefUtil.getBolValue("isFirstTime",true);
         if (isFirstTime){
             ApiMethods.getAppInfo(new MyObserver(mContext, (ObserverOnNextListener<BaseR<W2aModel>>) w2aModelBaseR -> {
@@ -139,7 +141,12 @@ public class CustomWebView {
 
                 }
             }),new AppBody(mPackageName),mContext);
+        }else{
+            Intent intent = new Intent(mContext,cls);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
         }
+
     }
 
     private static void launch(Uri URL) {

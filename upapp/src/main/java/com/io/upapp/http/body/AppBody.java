@@ -1,7 +1,10 @@
 package com.io.upapp.http.body;
 
-public class AppBody {
+import java.io.Serializable;
 
+public class AppBody implements Serializable {
+
+    private static final long serialVersionUID = 2L;
     private String packageName;
 
     private String upUuid;

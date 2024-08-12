@@ -5,12 +5,14 @@ import static com.io.upapp.UpApp.mFirebaseAnalytics;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.io.upapp.http.ApiMethods;
 import com.io.upapp.http.MyObserver;
 import com.io.upapp.http.ObserverOnNextListener;
+import com.io.upapp.http.VisitorInfoCallback;
 import com.io.upapp.http.body.AppBody;
 import com.io.upapp.http.body.DetailBody;
 import com.io.upapp.http.body.FBEventBody;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomEventApi {
-
+    private static final String TAG = "PostMessageDemo";
     public static void sendEvent(Context mContext, DetailBody body){
         if (TextUtils.isEmpty(body.getEventName())){
             ToastUtil.getInstance(mContext).showToast("Event name is required!");
@@ -118,42 +120,83 @@ public class CustomEventApi {
 
     private static AppBody getAppBody(Context mContext) {
         SharedPrefUtil sharedPrefUtil = new SharedPrefUtil(mContext);
-        String upApp = sharedPrefUtil.getValue("visitorInfo");
+        String upApp = sharedPrefUtil.getValue("upApp");
+        Log.d("PostMessageDemo",upApp);
+        if (TextUtils.isEmpty(upApp)){
+            ToastUtil.getInstance(mContext).showToast("Please receive and pushValue ");
+            return null;
+        }
         return new Gson().fromJson(upApp, AppBody.class);
     }
-
-    public static void getVisitorInfo(Context mContext,String upApp){
+    public static void saveValue(Context mContext,String upApp){
         SharedPrefUtil sharedPrefUtil = new SharedPrefUtil(mContext);
-        sharedPrefUtil.setSharedPref("visitorInfo",upApp);
-        if (!TextUtils.isEmpty(upApp)){
-            AppBody appBody = new Gson().fromJson(upApp, AppBody.class);
-            ApiMethods.getVisitorInfo(new MyObserver(mContext, (ObserverOnNextListener<BaseR<VisitorModel>>) visitorModelBaseR -> {
-                if (visitorModelBaseR.getCode()==200){
-                    VisitorModel data = visitorModelBaseR.getData();
-                    sharedPrefUtil.setSharedPref("advPlatform",data.getPlatform());
-                }
-
-            }),appBody,mContext);
+        if (TextUtils.isEmpty(upApp)){
+            ToastUtil.getInstance(mContext).showToast("Please receive and pushValue ");
+            return;
         }
+        sharedPrefUtil.setSharedPref("upApp",upApp);
+        getVisitorInfo(mContext, new VisitorInfoCallback() {
+            @Override
+            public void onSuccess(VisitorModel visitorInfo) {
+                sharedPrefUtil.setSharedPref("advPlatform", visitorInfo.getPlatform());
+                sharedPrefUtil.putBean("visitorInfo", visitorInfo);
+            }
+
+            @Override
+            public void onError(String err) {
+
+            }
+        });
+    }
+    public static void getVisitorInfo(Context mContext,VisitorInfoCallback callback){
+
+        AppBody appBody = getAppBody(mContext);
+        ApiMethods.getVisitorInfo(new MyObserver(mContext, (ObserverOnNextListener<BaseR<VisitorModel>>) visitorModelBaseR -> {
+            if (visitorModelBaseR.getCode() == 200){
+                VisitorModel data = visitorModelBaseR.getData();
+                callback.onSuccess(data);
+            }else {
+                callback.onError(visitorModelBaseR.getMsg());
+            }
+        }),appBody,mContext);
     }
 
     public static  void  sendFirebaseAnalyticsEvent(Context mContext, DetailBody body){
 
         AppBody appBody = getAppBody(mContext);
+        assert appBody != null;
         String upUuid = appBody.getUpUuid();
 
         Bundle bundle = new Bundle();
-        bundle.putString("event_id", upUuid);
-        bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID,upUuid);
-
-        if (body != null){
-            bundle.putString(FirebaseAnalytics.Param.CURRENCY, body.getCurrency() );
-            bundle.putString(FirebaseAnalytics.Param.ITEM_BRAND, body.getBrand() );
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, body.getContentId() );
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, body.getContentName() );
-            bundle.putString(FirebaseAnalytics.Param.PRICE, String.valueOf(body.getPrice()));
-            bundle.putString(FirebaseAnalytics.Param.QUANTITY, String.valueOf(body.getQuantity()));
-            mFirebaseAnalytics.logEvent(body.getEventName(), bundle);
+        if (!TextUtils.isEmpty(upUuid)){
+            bundle.putString("event_id", upUuid);
+            bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID,upUuid);
         }
+
+        if (!TextUtils.isEmpty(body.getCurrency())) {
+            bundle.putString(FirebaseAnalytics.Param.CURRENCY, body.getCurrency());
+        }
+
+        if (!TextUtils.isEmpty(body.getBrand())) {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_BRAND, body.getBrand());
+        }
+
+        if (!TextUtils.isEmpty(body.getContentId())) {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, body.getContentId());
+        }
+
+        if (!TextUtils.isEmpty(body.getContentName())) {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, body.getContentName());
+        }
+
+        if (body.getPrice() != 0) {
+            bundle.putString(FirebaseAnalytics.Param.PRICE, String.valueOf(body.getPrice()));
+        }
+
+        if (body.getQuantity() != 0) {
+            bundle.putString(FirebaseAnalytics.Param.QUANTITY, String.valueOf(body.getQuantity()));
+        }
+
+        mFirebaseAnalytics.logEvent(body.getEventName(), bundle);
     }
 }
