@@ -1,4 +1,4 @@
-package com.custom.custometwa;
+package com.upapp.w2a;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -20,6 +20,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.custom.custometwa", appContext.getPackageName());
+        assertEquals("com.upapp.w2a", appContext.getPackageName());
     }
 }

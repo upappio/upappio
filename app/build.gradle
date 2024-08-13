@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.custom.custometwa'
+    namespace 'com.upapp.w2a'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.custom.custometwa"
+        applicationId "com.upapp.w2a"
         minSdk 24
         targetSdk 34
         versionCode 1

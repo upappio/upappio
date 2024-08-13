@@ -12,7 +12,7 @@
             android:label="@string/app_name"
             android:roundIcon="@drawable/icon_upapp"
             android:supportsRtl="true"
-            android:theme="@style/Theme.CustomeTWA"
+            android:theme="@style/Theme.W2A"
             android:name=".CustomAPP"
             tools:targetApi="31">
         <activity android:name=".SplashActivity"

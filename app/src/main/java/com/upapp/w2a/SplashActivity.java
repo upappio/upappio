@@ -1,4 +1,4 @@
-package com.custom.custometwa;
+package com.upapp.w2a;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -18,6 +18,6 @@ public class SplashActivity extends AppCompatActivity {
             Toast.makeText(this, "The phone is not connected to the Internet!", Toast.LENGTH_SHORT).show();
         }
 
-        CustomWebView.bindCustomTabsService(this,"com.custom.custometwa",MainActivity.class);
+        CustomWebView.bindCustomTabsService(this,"com.upapp.w2a",MainActivity.class);
     }
 }

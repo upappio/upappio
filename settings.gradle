@@ -16,6 +16,6 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "CustomeTWA"
+rootProject.name = "W2A"
 include ':app'
 include ':upapp'
