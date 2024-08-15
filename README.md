@@ -1,25 +1,25 @@
-#  快速开始
+#  快速开始W2A安卓开发
    在app的build.gradle文件中添加依赖
 
-      implementation "io.github.upappio:upapp:4.4.0"
+      implementation "io.github.upappio:upapp:5.1.0"
    
 # 接收参数
 
-   在入口文件或者Application中调用打开 CustomWebView 打开下载页
+在引导页或者入口文件中调用打开 CustomWebView.bindCustomTabsService 方法
 
-      CustomWebView.getInstance(Context,"包名");
+    CustomWebView.bindCustomTabsService(Context,包名,接收数据的类);
 
-   该页面可作为引导页使用 仅打开一次  会自动关闭 发送数据 并打开接收页
+1. 参数: 接收数据的类 即 接收页 
+2. 首次打开app时,该方法会打开着陆页网址, 仅打开一次,会自动关闭,发送数据并打开接受页 
+3. 第二次启动app时,会直接跳转到接受页,不在打开着陆页
 
-   配置接收页 如MainActivity
+配置接收页 如MainActivity
 
-   编辑Manifest.xml
-   构造接收类  如接收类为MainActivity 添加协议 并使 android:exported="true"
+1. 编辑Manifest.xml,构造接收类,如接收类为MainActivity,添加协议并使android:exported="true"
 
-      <activity
+        <activity
         android:name=".MainActivity"
         android:exported="true">
-        ...
         <intent-filter>
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
@@ -30,35 +30,35 @@
             android:pathPrefix="/upApp"
             tools:ignore="AppLinkUrlError" />
         </intent-filter>
-      </activity>
+        </activity>
       
-   接收类MainActivity中通过intent接收通过协议传过来的参数
+2. 接收类MainActivity中通过intent接收通过协议传过来的参数
    
-      protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ...
-        handleIntent(getIntent());
-      }
-      @Override
-      protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        handleIntent(intent);
-      }
-      @SuppressLint("SetTextI18n")
-      private void handleIntent(Intent intent) {
-        Uri data = intent.getData();
-        if (data != null && "io".equals(data.getScheme())) {
-          String action = data.getHost();
-          if ("saveData".equals(action)) {
-            List<String> params = data.getPathSegments();
-            String key = params.get(0);
-            String value = params.get(1);
-            CustomEventApi.getVisitorInfo(MainActivity.this,value);
+          protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            ...
+            handleIntent(getIntent());
           }
-        }
-      }
+          @Override
+          protected void onNewIntent(Intent intent) {
+            super.onNewIntent(intent);
+            handleIntent(intent);
+          }
+          @SuppressLint("SetTextI18n")
+          private void handleIntent(Intent intent) {
+            Uri data = intent.getData();
+            if (data != null && "io".equals(data.getScheme())) {
+              String action = data.getHost();
+              if ("saveData".equals(action)) {
+                List<String> params = data.getPathSegments();
+                String key = params.get(0);
+                String value = params.get(1);
+                CustomEventApi.saveValue(MainActivity.this,value);
+              }
+            }
+          }
       
-  将接收到的value值 调用CustomEventApi.getVisitorInfo(Context,value); 传输给依赖 方便以后 归因使用
+3. 将接收到的value值 调用CustomEventApi.saveValue(Context,value); 传输给依赖方便以后归因使用
 
 # 归因调用 
 
@@ -106,6 +106,12 @@
 
     Context: 上下文
 
+# 其他方法
+获取UPAPP用户信息
+
+     CustomEventApi.getVisitorInfo(Context,VisitorInfoCallback)
+
+String postParam: 着陆页链接中带的所有参数 
 
 
 
