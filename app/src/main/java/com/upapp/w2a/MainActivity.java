@@ -61,10 +61,11 @@ public class MainActivity extends AppCompatActivity {
             mTitle.setText("事件参数");
             loading.setVisibility(View.VISIBLE);
             DetailBody body = new DetailBody("OpenAPP");
-            body.setDescription("web page");
-            body.setPrice(1.00);
-            body.setCurrency("USD");
-            body.setBrand("Fancy Sneakers");
+            body.setDescription("{\"amount\":\"200\",\"currency\":\"PHP\",\"isFirst\":0,\"success\":1}");
+//            body.setDescription("web page");
+//            body.setPrice(1.00);
+//            body.setCurrency("USD");
+//            body.setBrand("Fancy Sneakers");
 
             CustomEventApi.sendEvent(MainActivity.this,body);
             loading.setVisibility(View.GONE);
