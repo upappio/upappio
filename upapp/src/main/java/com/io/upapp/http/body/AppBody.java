@@ -43,4 +43,10 @@ public class AppBody implements Serializable {
         this.packageName = packageName;
         this.upUuid = upUuid;
     }
+
+    public AppBody(String packageName, String upUuid, String devKey) {
+        this.packageName = packageName;
+        this.upUuid = upUuid;
+        this.devKey = devKey;
+    }
 }

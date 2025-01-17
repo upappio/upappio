@@ -61,6 +61,16 @@ public class W2aModel {
         private String name;
         private List<Integer> starList;
 
+        private String landingUrlStatus;
+
+        public String getLandingUrlStatus() {
+            return landingUrlStatus;
+        }
+
+        public void setLandingUrlStatus(String landingUrlStatus) {
+            this.landingUrlStatus = landingUrlStatus;
+        }
+
         public String getCreateBy() {
             return createBy;
         }
@@ -355,6 +365,9 @@ public class W2aModel {
         private String packageName;
         private String language;
 
+        private String code;
+        private int hostingType;
+
         public String getCreateBy() {
             return createBy;
         }
@@ -497,6 +510,22 @@ public class W2aModel {
 
         public void setLanguage(String language) {
             this.language = language;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public int getHostingType() {
+            return hostingType;
+        }
+
+        public void setHostingType(int hostingType) {
+            this.hostingType = hostingType;
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.io.upapp.http.body;
 
-public class KWEventBody {
+import com.io.upapp.http.EventBody;
+
+public class KWEventBody  implements EventBody {
     private String upUuid;
 
     private String devKey;
@@ -9,14 +11,16 @@ public class KWEventBody {
         return upUuid;
     }
 
-    public void setUpUuid(String upUuid) {
-        this.upUuid = upUuid;
-    }
-
     public String getDevKey() {
         return devKey;
     }
 
+    @Override
+    public void setUpUuid(String upUuid) {
+        this.upUuid = upUuid;
+    }
+
+    @Override
     public void setDevKey(String devKey) {
         this.devKey = devKey;
     }

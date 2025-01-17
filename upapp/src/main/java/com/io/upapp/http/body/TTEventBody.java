@@ -1,33 +1,37 @@
 package com.io.upapp.http.body;
 
+import com.io.upapp.http.EventBody;
+
 import java.util.List;
 
-public class TTEventBody {
+public class TTEventBody  implements EventBody {
 
     private String upUuid;
 
     private String devKey;
 
-
-    private String event_source;
-    private String event_source_id;
-    private List<DataBean> data;
-
     public String getUpUuid() {
         return upUuid;
-    }
-
-    public void setUpUuid(String upUuid) {
-        this.upUuid = upUuid;
     }
 
     public String getDevKey() {
         return devKey;
     }
 
+    @Override
+    public void setUpUuid(String upUuid) {
+        this.upUuid = upUuid;
+    }
+
+    @Override
     public void setDevKey(String devKey) {
         this.devKey = devKey;
     }
+
+    private String event_source;
+    private String event_source_id;
+    private List<DataBean> data;
+
 
     public String getEvent_source() {
         return event_source;

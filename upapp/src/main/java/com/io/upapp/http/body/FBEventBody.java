@@ -1,28 +1,29 @@
 package com.io.upapp.http.body;
 
+import com.io.upapp.http.EventBody;
+
 import java.util.List;
 
-public class FBEventBody {
-
+public class FBEventBody  implements EventBody {
 
     private String upUuid;
 
     private String devKey;
-
-    public String getUpUuid() {
-        return upUuid;
-    }
-
+    @Override
     public void setUpUuid(String upUuid) {
         this.upUuid = upUuid;
     }
 
-    public String getDevKey() {
-        return devKey;
-    }
-
+    @Override
     public void setDevKey(String devKey) {
         this.devKey = devKey;
+    }
+    public String getUpUuid() {
+        return upUuid;
+    }
+
+    public String getDevKey() {
+        return devKey;
     }
 
     private String event_name;
@@ -97,6 +98,7 @@ public class FBEventBody {
     public void setOpt_out(boolean opt_out) {
         this.opt_out = opt_out;
     }
+
 
     public static class UserDataBean {
 
